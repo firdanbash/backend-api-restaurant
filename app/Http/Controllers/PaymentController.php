@@ -13,7 +13,11 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'success' => true,
+            'message' => 'Payment',
+            'data' => 'Data Payment'
+        ]);
     }
 
     /**

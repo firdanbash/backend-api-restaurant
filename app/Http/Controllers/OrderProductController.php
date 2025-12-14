@@ -13,7 +13,11 @@ class OrderProductController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'success' => true,
+            'message' => 'Order Product',
+            'data' => 'Data Order Product'
+        ]);
     }
 
     /**

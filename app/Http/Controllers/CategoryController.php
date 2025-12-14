@@ -13,7 +13,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'success' => true,
+            'message' => 'Category',
+            'data' => 'Data Category'
+        ]);
     }
 
     /**
