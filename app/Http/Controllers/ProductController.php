@@ -14,7 +14,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return new ProductCollection(Product::all());
+        $product = Product::all();
+        $product->load('category');
+        return new ProductCollection($product);
     }
 
     /**
@@ -30,7 +32,11 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $data = $request->validated();
+        $product = Product::create($data);
+        $product->load('category');
+
+        return new ProductCollection(collect()->push($product));
     }
 
     /**
@@ -38,7 +44,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $product->load('category');
+        return new ProductCollection(collect([$product]));
     }
 
     /**
@@ -54,7 +61,10 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->validated());
+        $product->load('category');
+
+        return new ProductCollection(collect([$product]));
     }
 
     /**
@@ -62,6 +72,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Product deleted successfully',
+        ]);
     }
 }
