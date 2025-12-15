@@ -1,59 +1,251 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Backend API Restaurant
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+REST API untuk sistem Point of Sale (POS) Restaurant dengan autentikasi dan role-based authorization.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   Laravel 12
+-   PHP 8.2
+-   Laravel Sanctum (Token-based Authentication)
+-   MySQL
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   Token-based authentication dengan Laravel Sanctum
+-   Role-based authorization (Admin & Kasir)
+-   Order management dengan automatic stock deduction
+-   Product, Category, Payment management
+-   User management (Admin only)
+-   Receipt code generation
+-   Transaction handling dengan database transaction
 
-## Learning Laravel
+## Database Schema
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+-   users (admin, kasir)
+-   categories
+-   products
+-   payments
+-   orders
+-   orders_products (pivot table)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+1. Clone repository
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+git clone <repository-url>
+cd backend-api-restaurant
+```
 
-### Premium Partners
+2. Install dependencies
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+composer install
+npm install
+```
 
-## Contributing
+3. Setup environment
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Code of Conduct
+4. Configure database di file `.env`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=restaurant_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Security Vulnerabilities
+5. Run migrations
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan migrate
+```
+
+6. Create admin user via tinker
+
+```bash
+php artisan tinker
+```
+
+```php
+\App\Models\User::create([
+    'name' => 'Administrator',
+    'email' => 'admin@resto.com',
+    'password' => \Hash::make('admin123'),
+    'role' => 'admin'
+]);
+```
+
+7. Run development server
+
+```bash
+composer run dev
+```
+
+Server akan berjalan di `http://localhost:8000`
+
+## API Endpoints
+
+### Authentication
+
+| Method | Endpoint      | Description              | Access        |
+| ------ | ------------- | ------------------------ | ------------- |
+| POST   | `/api/login`  | Login dan dapatkan token | Public        |
+| POST   | `/api/logout` | Logout dan revoke token  | Authenticated |
+| GET    | `/api/user`   | Get current user info    | Authenticated |
+
+### Users Management
+
+| Method | Endpoint          | Description     | Access |
+| ------ | ----------------- | --------------- | ------ |
+| GET    | `/api/users`      | List all users  | Admin  |
+| POST   | `/api/users`      | Create new user | Admin  |
+| GET    | `/api/users/{id}` | Get user detail | Admin  |
+| PUT    | `/api/users/{id}` | Update user     | Admin  |
+| DELETE | `/api/users/{id}` | Delete user     | Admin  |
+
+### Categories
+
+| Method | Endpoint               | Description         | Access       |
+| ------ | ---------------------- | ------------------- | ------------ |
+| GET    | `/api/categories`      | List categories     | Admin, Kasir |
+| POST   | `/api/categories`      | Create category     | Admin        |
+| GET    | `/api/categories/{id}` | Get category detail | Admin, Kasir |
+| PUT    | `/api/categories/{id}` | Update category     | Admin        |
+| DELETE | `/api/categories/{id}` | Delete category     | Admin        |
+
+### Products
+
+| Method | Endpoint             | Description        | Access       |
+| ------ | -------------------- | ------------------ | ------------ |
+| GET    | `/api/products`      | List products      | Admin, Kasir |
+| POST   | `/api/products`      | Create product     | Admin        |
+| GET    | `/api/products/{id}` | Get product detail | Admin, Kasir |
+| PUT    | `/api/products/{id}` | Update product     | Admin        |
+| DELETE | `/api/products/{id}` | Delete product     | Admin        |
+
+### Payments
+
+| Method | Endpoint             | Description           | Access       |
+| ------ | -------------------- | --------------------- | ------------ |
+| GET    | `/api/payments`      | List payment methods  | Admin, Kasir |
+| POST   | `/api/payments`      | Create payment method | Admin        |
+| GET    | `/api/payments/{id}` | Get payment detail    | Admin, Kasir |
+| PUT    | `/api/payments/{id}` | Update payment method | Admin        |
+| DELETE | `/api/payments/{id}` | Delete payment method | Admin        |
+
+### Orders
+
+| Method | Endpoint           | Description      | Access                        |
+| ------ | ------------------ | ---------------- | ----------------------------- |
+| GET    | `/api/orders`      | List orders      | Admin (all), Kasir (own only) |
+| POST   | `/api/orders`      | Create order     | Admin, Kasir                  |
+| GET    | `/api/orders/{id}` | Get order detail | Admin (all), Kasir (own only) |
+| PUT    | `/api/orders/{id}` | Update order     | Admin (all), Kasir (own only) |
+| DELETE | `/api/orders/{id}` | Delete order     | Admin                         |
+
+## Authentication
+
+Semua endpoint (kecuali `/api/login`) membutuhkan token di header:
+
+```
+Authorization: Bearer {token}
+```
+
+### Login Request
+
+```json
+POST /api/login
+Content-Type: application/json
+
+{
+  "email": "admin@resto.com",
+  "password": "admin123"
+}
+```
+
+### Login Response
+
+```json
+{
+    "success": true,
+    "message": "Login berhasil",
+    "data": {
+        "user": {
+            "id": 1,
+            "name": "Administrator",
+            "email": "admin@resto.com",
+            "role": "admin"
+        },
+        "token": "1|xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+}
+```
+
+## Create Order Example
+
+```json
+POST /api/orders
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "payment_type_id": 1,
+  "name": "John Doe",
+  "total_paid": 100000,
+  "items": [
+    {
+      "product_id": 1,
+      "qty": 2,
+      "price": 25000
+    },
+    {
+      "product_id": 2,
+      "qty": 1,
+      "price": 50000
+    }
+  ]
+}
+```
+
+## Access Control
+
+### Admin
+
+-   Full CRUD pada semua resource
+-   Dapat melihat dan manage semua orders
+-   Dapat delete orders
+-   Dapat create/update/delete users
+
+### Kasir
+
+-   Read-only pada categories, products, payments
+-   Dapat create orders
+-   Hanya dapat melihat dan edit orders yang dibuat sendiri
+-   Tidak dapat delete orders
+-   Tidak dapat akses user management
+
+## Development
+
+Run development server dengan hot reload:
+
+```bash
+composer run dev
+```
+
+Run tests:
+
+```bash
+php artisan test
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT License
