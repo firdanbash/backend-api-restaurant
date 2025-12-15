@@ -3,36 +3,126 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
+        // Get categories
+        $makanan = Category::where('name', 'Makanan')->first();
+        $minuman = Category::where('name', 'Minuman')->first();
+        $snack = Category::where('name', 'Snack')->first();
+        $dessert = Category::where('name', 'Dessert')->first();
+
         $products = [
-            // Makanan (category_id: 1)
-            ['sku' => 'MKN001', 'name' => 'Nasi Goreng', 'stock' => 50, 'price' => 25000, 'image' => 'nasi-goreng.jpg', 'category_id' => 1],
-            ['sku' => 'MKN002', 'name' => 'Mie Goreng', 'stock' => 50, 'price' => 20000, 'image' => 'mie-goreng.jpg', 'category_id' => 1],
-            ['sku' => 'MKN003', 'name' => 'Ayam Goreng', 'stock' => 30, 'price' => 30000, 'image' => 'ayam-goreng.jpg', 'category_id' => 1],
-            ['sku' => 'MKN004', 'name' => 'Soto Ayam', 'stock' => 40, 'price' => 22000, 'image' => 'soto-ayam.jpg', 'category_id' => 1],
-            ['sku' => 'MKN005', 'name' => 'Gado-Gado', 'stock' => 35, 'price' => 18000, 'image' => 'gado-gado.jpg', 'category_id' => 1],
+            // Makanan
+            [
+                'name' => 'Nasi Goreng',
+                'sku' => 'MKN-001',
+                'price' => 25000,
+                'stock' => 50,
+                'category_id' => $makanan->id,
+                'image' => 'nasi_goreng_1765834284441.jpg',
+            ],
+            [
+                'name' => 'Mie Goreng',
+                'sku' => 'MKN-002',
+                'price' => 22000,
+                'stock' => 45,
+                'category_id' => $makanan->id,
+                'image' => 'mie_goreng_1765834300956.jpg',
+            ],
+            [
+                'name' => 'Ayam Bakar',
+                'sku' => 'MKN-003',
+                'price' => 35000,
+                'stock' => 30,
+                'category_id' => $makanan->id,
+                'image' => 'ayam_bakar_1765834315149.jpg',
+            ],
+            [
+                'name' => 'Soto Ayam',
+                'sku' => 'MKN-004',
+                'price' => 28000,
+                'stock' => 40,
+                'category_id' => $makanan->id,
+                'image' => 'soto_ayam_1765834330304.jpg',
+            ],
 
-            // Minuman (category_id: 2)
-            ['sku' => 'MNM001', 'name' => 'Es Teh', 'stock' => 100, 'price' => 5000, 'image' => 'es-teh.jpg', 'category_id' => 2],
-            ['sku' => 'MNM002', 'name' => 'Es Jeruk', 'stock' => 80, 'price' => 8000, 'image' => 'es-jeruk.jpg', 'category_id' => 2],
-            ['sku' => 'MNM003', 'name' => 'Es Kelapa', 'stock' => 60, 'price' => 10000, 'image' => 'es-kelapa.jpg', 'category_id' => 2],
-            ['sku' => 'MNM004', 'name' => 'Jus Alpukat', 'stock' => 50, 'price' => 15000, 'image' => 'jus-alpukat.jpg', 'category_id' => 2],
-            ['sku' => 'MNM005', 'name' => 'Kopi Hitam', 'stock' => 70, 'price' => 7000, 'image' => 'kopi-hitam.jpg', 'category_id' => 2],
+            // Minuman
+            [
+                'name' => 'Es Teh Manis',
+                'sku' => 'MNM-001',
+                'price' => 5000,
+                'stock' => 100,
+                'category_id' => $minuman->id,
+                'image' => 'es_teh_1765834345262.jpg',
+            ],
+            [
+                'name' => 'Jus Jeruk',
+                'sku' => 'MNM-002',
+                'price' => 12000,
+                'stock' => 60,
+                'category_id' => $minuman->id,
+                'image' => 'jus_jeruk_1765834362042.jpg',
+            ],
+            [
+                'name' => 'Kopi Hitam',
+                'sku' => 'MNM-003',
+                'price' => 10000,
+                'stock' => 80,
+                'category_id' => $minuman->id,
+                'image' => 'kopi_hitam_1765834378524.jpg',
+            ],
+            [
+                'name' => 'Es Kelapa Muda',
+                'sku' => 'MNM-004',
+                'price' => 15000,
+                'stock' => 50,
+                'category_id' => $minuman->id,
+                'image' => 'es_kelapa_1765834394784.jpg',
+            ],
 
-            // Snack (category_id: 3)
-            ['sku' => 'SNK001', 'name' => 'Kentang Goreng', 'stock' => 60, 'price' => 12000, 'image' => 'kentang-goreng.jpg', 'category_id' => 3],
-            ['sku' => 'SNK002', 'name' => 'Pisang Goreng', 'stock' => 50, 'price' => 10000, 'image' => 'pisang-goreng.jpg', 'category_id' => 3],
-            ['sku' => 'SNK003', 'name' => 'Tahu Isi', 'stock' => 45, 'price' => 8000, 'image' => 'tahu-isi.jpg', 'category_id' => 3],
+            // Snack
+            [
+                'name' => 'French Fries',
+                'sku' => 'SNK-001',
+                'price' => 15000,
+                'stock' => 70,
+                'category_id' => $snack->id,
+                'image' => 'french_fries_1765834410521.jpg',
+            ],
 
-            // Dessert (category_id: 4)
-            ['sku' => 'DST001', 'name' => 'Es Krim Vanilla', 'stock' => 40, 'price' => 15000, 'image' => 'es-krim-vanilla.jpg', 'category_id' => 4],
-            ['sku' => 'DST002', 'name' => 'Puding Coklat', 'stock' => 35, 'price' => 12000, 'image' => 'puding-coklat.jpg', 'category_id' => 4],
-            ['sku' => 'DST003', 'name' => 'Cake Strawberry', 'stock' => 25, 'price' => 20000, 'image' => 'cake-strawberry.jpg', 'category_id' => 4],
+            // Dessert
+            [
+                'name' => 'Ice Cream',
+                'sku' => 'DST-001',
+                'price' => 20000,
+                'stock' => 50,
+                'category_id' => $dessert->id,
+                'image' => 'ice_cream_1765834459344.jpg',
+            ],
+            [
+                'name' => 'Pudding',
+                'sku' => 'DST-003',
+                'price' => 15000,
+                'stock' => 40,
+                'category_id' => $dessert->id,
+                'image' => 'pudding_1765834495526.jpg',
+            ],
+            [
+                'name' => 'Strawberry Cake',
+                'sku' => 'DST-004',
+                'price' => 18000,
+                'stock' => 35,
+                'category_id' => $dessert->id,
+                'image' => 'strawberry_cake_1765834510546.jpg',
+            ],
         ];
 
         foreach ($products as $product) {
