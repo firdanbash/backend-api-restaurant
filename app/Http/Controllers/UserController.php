@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
+use Illuminate\Support\Facades\Hash;
+
+use function Pest\Laravel\delete;
 
 class UserController extends Controller
 {
@@ -30,7 +33,12 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+
+        $user = User::create($data);
+
+        return new UserCollection(collect()->push($user));
     }
 
     /**
@@ -38,7 +46,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return new UserCollection(collect([$user]));
     }
 
     /**
@@ -54,7 +62,17 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+
+        if (! empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+        $user->update($data);
+
+        return new UserCollection(collect([$user]));
     }
 
     /**
@@ -62,6 +80,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User deleted successfully',
+        ]);
     }
 }
