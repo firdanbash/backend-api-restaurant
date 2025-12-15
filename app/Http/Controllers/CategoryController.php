@@ -30,7 +30,10 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $data = $request->validated();
+        $category = Category::create($data);
+
+        return new CategoryCollection(collect()->push($category));
     }
 
     /**
@@ -38,7 +41,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return new CategoryCollection(collect([$category]));
     }
 
     /**
@@ -54,7 +57,10 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $data = $request->validated();
+        $category->update($data);
+
+        return new CategoryCollection(collect([$category]));
     }
 
     /**
@@ -62,6 +68,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Category deleted successfully',
+        ]);
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Http\Resources\PaymentCollection;
+use App\Models\Category;
 
 class PaymentController extends Controller
 {
@@ -30,7 +31,9 @@ class PaymentController extends Controller
      */
     public function store(StorePaymentRequest $request)
     {
-        //
+        $data = $request->validated();
+        $category = Payment::create($data);
+        return new PaymentCollection(collect()->push($category));
     }
 
     /**
@@ -38,7 +41,7 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        //
+        return new PaymentCollection(collect([$payment]));
     }
 
     /**
@@ -54,7 +57,9 @@ class PaymentController extends Controller
      */
     public function update(UpdatePaymentRequest $request, Payment $payment)
     {
-        //
+        $data = $request->validated();
+        $payment->update($data);
+        return new PaymentCollection(collect([$payment]));
     }
 
     /**
@@ -62,6 +67,11 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        //
+        $payment->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Payment deleted successfully',
+        ]);
     }
 }

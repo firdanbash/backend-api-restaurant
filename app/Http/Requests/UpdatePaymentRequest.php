@@ -11,7 +11,7 @@ class UpdatePaymentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdatePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'  => 'sometimes|string|max:255',
+            'type'  => 'sometimes|in:cash,transfer',
+            'logo'  => 'sometimes|string|max:255',
         ];
     }
 }
