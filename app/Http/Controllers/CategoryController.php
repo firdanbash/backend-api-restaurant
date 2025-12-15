@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryCollection;
 
 class CategoryController extends Controller
 {
@@ -13,11 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Category',
-            'data' => 'Data Category'
-        ]);
+        return new CategoryCollection(Category::all());
     }
 
     /**

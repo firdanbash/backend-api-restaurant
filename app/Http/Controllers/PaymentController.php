@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use App\Http\Resources\PaymentCollection;
 
 class PaymentController extends Controller
 {
@@ -13,11 +14,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Payment',
-            'data' => 'Data Payment'
-        ]);
+        return new PaymentCollection(Payment::all());
     }
 
     /**
