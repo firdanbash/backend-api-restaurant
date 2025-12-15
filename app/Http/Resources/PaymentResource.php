@@ -19,6 +19,7 @@ class PaymentResource extends JsonResource
             'name'       => $this->name,
             'type'       => $this->type,
             'logo'       => $this->logo,
+            'logo_url'   => $this->logo ? asset('storage/payments/' . $this->logo) : null,
         ];
     }
 }

@@ -22,6 +22,8 @@ class ProductResource extends JsonResource
             'stock'      => $this->stock,
             'price'      => $this->price,
             'image'      => $this->image,
+            'image_url'  => $this->image ? asset('storage/products/' . $this->image) : null,
+            'category_id' => $this->category_id,
             'category'   => new CategoryResource($this->whenLoaded('category')),
             'created_at' => $this->created_at?->toISOString(),
             'updated_at' => $this->updated_at?->toISOString(),
