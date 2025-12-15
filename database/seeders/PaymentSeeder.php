@@ -13,30 +13,16 @@ class PaymentSeeder extends Seeder
      */
     public function run(): void
     {
-        Payment::create([
-            'name' => 'Cash',
-            'type' => 'Cash',
-            'logo' => 'logo.png',
-        ]);
-        Payment::create([
-            'name' => 'BRI',
-            'type' => 'Transfer',
-            'logo' => 'logo.png',
-        ]);
-        Payment::create([
-            'name' => 'BCA',
-            'type' => 'Transfer',
-            'logo' => 'logo.png',
-        ]);
-        Payment::create([
-            'name' => 'BNI',
-            'type' => 'Transfer',
-            'logo' => 'logo.png',
-        ]);
-        Payment::create([
-            'name' => 'Mandiri',
-            'type' => 'Transfer',
-            'logo' => 'logo.png',
-        ]);
+        $payments = [
+            ['name' => 'Cash', 'type' => 'cash', 'logo' => 'cash.png'],
+            ['name' => 'Bank BCA', 'type' => 'transfer', 'logo' => 'bca.png'],
+            ['name' => 'Bank Mandiri', 'type' => 'transfer', 'logo' => 'mandiri.png'],
+            ['name' => 'Bank BRI', 'type' => 'transfer', 'logo' => 'bri.png'],
+            ['name' => 'QRIS', 'type' => 'transfer', 'logo' => 'qris.png'],
+        ];
+
+        foreach ($payments as $payment) {
+            Payment::create($payment);
+        }
     }
 }

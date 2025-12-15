@@ -68,20 +68,16 @@ DB_PASSWORD=
 php artisan migrate
 ```
 
-6. Create admin user via tinker
+6. Run seeders
 
 ```bash
-php artisan tinker
+php artisan db:seed
 ```
 
-```php
-\App\Models\User::create([
-    'name' => 'Administrator',
-    'email' => 'admin@resto.com',
-    'password' => \Hash::make('admin123'),
-    'role' => 'admin'
-]);
-```
+Credentials yang tersedia setelah seeding:
+
+-   Admin: `admin@admin.com` / `password123`
+-   Kasir: `kasir@kasir.com` / `password123`
 
 7. Run development server
 
@@ -166,8 +162,8 @@ POST /api/login
 Content-Type: application/json
 
 {
-  "email": "admin@resto.com",
-  "password": "admin123"
+  "email": "admin@admin.com",
+  "password": "password123"
 }
 ```
 
@@ -181,7 +177,7 @@ Content-Type: application/json
         "user": {
             "id": 1,
             "name": "Administrator",
-            "email": "admin@resto.com",
+            "email": "admin@admin.com",
             "role": "admin"
         },
         "token": "1|xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
