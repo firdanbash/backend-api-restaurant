@@ -22,9 +22,9 @@ class StorePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'  => 'required|string|max:255',
-            'type'  => 'required|in:cash,transfer',
-            'logo'  => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:cash,transfer',
+            'logo' => 'nullable|image|mimes:jpeg,jpg,png,webp,svg|max:2048',
         ];
     }
 }

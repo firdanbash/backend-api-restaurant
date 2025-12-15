@@ -22,9 +22,9 @@ class UpdatePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'  => 'sometimes|string|max:255',
-            'type'  => 'sometimes|in:cash,transfer',
-            'logo'  => 'sometimes|string|max:255',
+            'name' => 'sometimes|string|max:255',
+            'type' => 'sometimes|in:cash,transfer',
+            'logo' => 'nullable|image|mimes:jpeg,jpg,png,webp,svg|max:2048',
         ];
     }
 }
