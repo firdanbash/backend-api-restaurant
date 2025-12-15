@@ -3,7 +3,6 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -24,7 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('categories', CategoryController::class);
     Route::resource('orders', OrderController::class);
-    Route::resource('orderproducts', OrderProductController::class);
     Route::resource('payments', PaymentController::class);
     Route::resource('products', ProductController::class);
     Route::resource('users', UserController::class);

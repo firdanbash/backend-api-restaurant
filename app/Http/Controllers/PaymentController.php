@@ -32,8 +32,8 @@ class PaymentController extends Controller
     public function store(StorePaymentRequest $request)
     {
         $data = $request->validated();
-        $category = Payment::create($data);
-        return new PaymentCollection(collect()->push($category));
+        $payment = Payment::create($data);
+        return new PaymentCollection(collect()->push($payment));
     }
 
     /**

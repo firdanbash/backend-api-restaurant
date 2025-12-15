@@ -14,7 +14,7 @@ class Order extends Model
         'payment_type_id',
         'name',
         'total_price',
-        'total_pain',
+        'total_paid',
         'total_return',
         'receipt_code',
     ];
