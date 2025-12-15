@@ -11,7 +11,7 @@ class UpdateOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'payment_type_id' => ['sometimes', 'integer', 'exists:payments,id'],
+            'name' => ['sometimes', 'string', 'max:255'],
+            'total_paid' => ['sometimes', 'integer', 'min:0'],
         ];
     }
 }

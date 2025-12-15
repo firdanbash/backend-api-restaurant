@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderProduct extends Model
 {
-    //
+    protected $table = 'orders_products';
 
     protected $fillable = [
         'order_id',
